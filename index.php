@@ -38,7 +38,7 @@ require_once ("src/Models/products.php");
                     <td>$product->title</td>
                     <td>$product->price SEK</td>
                     <td>$product->stockLevel pcs</td>
-                    <td><a href='product.php?id=$product->id&author=$product->author&title=$product->title'>Details</a>
+                    <td><a href='product.php?id=$product->id&author=$product->author&title=$product->title'>Read more</a>
                     </tr>";
             }
             ;
