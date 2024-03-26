@@ -7,7 +7,6 @@
             echo $_GET['title'];
             ?>
         </h3>
-        <p>1916, depressing read</p>
 </body>
 
 </html>
