@@ -4,6 +4,7 @@ require_once ("src/Models/Database.php");
 $dbContext = new DBContext();
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortCol = $_GET['sortCol'] ?? "";
+$q = $_GET['q'] ?? "";
 ?>
 
 <!doctype html>
@@ -31,7 +32,10 @@ $sortCol = $_GET['sortCol'] ?? "";
     </header>
 
     <section>
-      <div class="startPageProducts">
+      <form method="GET">
+        <input type="text" placeholder="Sök produkt" name="q" value="<?php echo $q; ?>" />
+      </form>
+      <div class=" startPageProducts">
         <table class="table">
           <thead>
             <tr>
