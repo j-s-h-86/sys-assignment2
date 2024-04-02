@@ -63,6 +63,14 @@ class DBContext
         return $prep->fetch();
     }
 
+    function getProductsByCategory($categoryId)
+    {
+        $prep = $this->pdo->prepare('SELECT * FROM products WHERE categoryId = :categoryId');
+        $prep->setFetchMode(PDO::FETCH_CLASS, 'Product');
+        $prep->execute(['categoryId' => $categoryId]);
+        return $prep->fetchAll();
+    }
+
 
 
     function seedIfNotSeeded()
@@ -81,7 +89,14 @@ class DBContext
         $this->createIfNotExisting("JG Ballard", "Skändlighetsutställningen", 139, 5, 2);
         $this->createIfNotExisting("Tristan Tzara", "Dada är allt!", 99, 4, 1);
         $this->createIfNotExisting("Friedich Nietzsche", "Antikrist", 199, 1, 3);
+        $this->createIfNotExisting("Friedich Nietzsche", "Så Talade Zarathustra", 199, 2, 3);
+        $this->createIfNotExisting("Emile Cioran", "Olägenheten i att vara född", 189, 1, 3);
+        $this->createIfNotExisting("Emile Cioran", "Sammanfattning av sönderfallet", 179, 1, 3);
         $this->createIfNotExisting("Emile Cioran", "Bitterhetens Syllogismer", 199, 3, 3);
+        $this->createIfNotExisting("Pär Lagerkvist", "Kaos", 99, 1, 2);
+        $this->createIfNotExisting("Dennis Cooper", "Närmare", 109, 1, 2);
+        $this->createIfNotExisting("Dennis Cooper", "Kluven", 109, 1, 2);
+        $this->createIfNotExisting("Dennis Cooper", "The Sluts (import)", 199, 1, 2);
         $seeded = true;
 
     }
