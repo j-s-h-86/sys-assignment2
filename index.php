@@ -7,7 +7,7 @@ $router->addRoute('/', function () {
     require __DIR__ . '/src/pages/index.php';
 });
 
-$router->addRoute('/product', function () {
+$router->addRoute('/viewProduct', function () {
     require __DIR__ . '/src/pages/viewProduct.php';
 });
 

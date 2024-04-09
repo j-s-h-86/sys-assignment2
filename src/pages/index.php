@@ -1,10 +1,14 @@
 <?php
 require_once ("src/Models/products.php");
 require_once ("src/Models/Database.php");
+require_once ("src/pages/layout/header.php");
+
 $dbContext = new DBContext();
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortCol = $_GET['sortCol'] ?? "";
 $q = $_GET['q'] ?? "";
+
+layout_header("Kulturprofilens Webshop");
 ?>
 
 <!doctype html>
@@ -14,27 +18,14 @@ $q = $_GET['q'] ?? "";
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Webshop</title>
+  <title>Kulturprofilens Webshop</title>
   <link rel="stylesheet" href="./src/style/index.css">
   <script src="https://kit.fontawesome.com/f3df6af664.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
   <div id="root">
-    <header>
-      <?php
-      $categories = $dbContext->getAllCategories();
-      foreach ($categories as $category) {
-        echo "<a href='/viewCategory?id=$category->id'>$category->title</a>";
-      }
-      ?>
-
-    </header>
-
     <section>
-      <form method="GET">
-        <input type="text" placeholder="Sök produkt" name="q" value="<?php echo $q; ?>" />
-      </form>
       <div class=" startPageProducts">
         <table class="table">
           <thead>
@@ -45,13 +36,13 @@ $q = $_GET['q'] ?? "";
                     href="?sortCol=title&sortOrder=desc"><i class="fa-solid fa-arrow-up-z-a"></i></a></th>
               <th>Price<a href="?sortCol=price&sortOrder=asc"><i class="fa-solid fa-arrow-down-a-z"></i><a
                     href="?sortCol=price&sortOrder=desc"><i class="fa-solid fa-arrow-up-z-a"></i></a></th>
-              <th>Category<a href="?sortCol=categoryId&sortOrder=asc"><i class="fa-solid fa-arrow-down-a-z"></i><a
+              <!-- <th>Category<a href="?sortCol=categoryId&sortOrder=asc"><i class="fa-solid fa-arrow-down-a-z"></i><a
                     href="?sortCol=categoryId&sortOrder=desc"><i class="fa-solid fa-arrow-up-z-a"></i></a></th>
-              <th>In stock</th>
+              <th>In stock</th> -->
             </tr>
           </thead>
 
-          <tbody>
+          <!-- <tbody>
             <?php
             $products = $dbContext->getAllProducts($sortCol, $sortOrder);
             foreach ($products as $product) {
@@ -61,10 +52,31 @@ $q = $_GET['q'] ?? "";
                     <td>$product->price SEK</td>
                     <td>$product->categoryId</td>
                     <td>$product->stockLevel pcs</td>
-                    <td><a href='product.php?id=$product->id&author=$product->author&title=$product->title'>Read more</a>
+                    <td><a href='/viewProduct?id=$product->id'>Read more</a>
                     </tr>";
             }
             ;
+            ?>
+          </tbody> -->
+          <tbody>
+            <?php
+            foreach ($dbContext->searchProduct($sortCol, $sortOrder, $q) as $product) {
+              ?>
+              <tr class="tabulator-row">
+                <td>
+                  <?php echo $product->author ?>
+                </td>
+                <td>
+                  <a href="/viewProduct?id=<?php echo $product->id ?>">
+                    <?php echo $product->title ?>
+                  </a>
+                </td>
+                <td>
+                  <?php echo $product->price ?> SEK
+                </td>
+              </tr>
+              <?php
+            }
             ?>
           </tbody>
         </table>
@@ -74,7 +86,7 @@ $q = $_GET['q'] ?? "";
 
   </div>
 
-  <script type="module" src="/src/main.tsx"></script>
+  <script type=" module" src="/src/main.tsx"></script>
 </body>
 
 </html>

@@ -43,7 +43,7 @@ class DBContext
     function getProduct($id)
     {
         $prep = $this->pdo->prepare('SELECT * FROM products where id=:id');
-        $prep->setFetchMode(PDO::FETCH_CLASS, 'products');
+        $prep->setFetchMode(PDO::FETCH_CLASS, 'Product');
         $prep->execute(['id' => $id]);
         return $prep->fetch();
     }
@@ -63,14 +63,53 @@ class DBContext
         return $prep->fetch();
     }
 
-    function getProductsByCategory($categoryId)
+    function getProductsByCategory($categoryId, $sortOrder, $sortCol)
     {
-        $prep = $this->pdo->prepare('SELECT * FROM products WHERE categoryId = :categoryId');
+        if ($sortCol == null) {
+            $sortCol = "author";
+        }
+        if ($sortOrder == null) {
+            $sortOrder = "Asc";
+        }
+        $prep = $this->pdo->prepare("SELECT * FROM products WHERE categoryId = :categoryId ORDER BY $sortCol $sortOrder");
         $prep->setFetchMode(PDO::FETCH_CLASS, 'Product');
         $prep->execute(['categoryId' => $categoryId]);
         return $prep->fetchAll();
     }
 
+    function searchProduct($sortCol, $sortOrder, $q)
+    {
+        if ($sortCol == null) {
+            $sortCol = "title";
+        }
+        if ($sortOrder == null) {
+            $sortOrder = "ASC";
+        }
+        $sql = "SELECT * FROM products ";
+        $paramsArray = [];
+        $addedWhere = false;
+        if ($q != null && strlen($q) > 0) {
+            if (!$addedWhere) {
+                $sql = $sql . " WHERE ";
+                $addedWhere = true;
+            } else {
+                $sql = $sql . " AND ";
+            }
+            $sql = $sql . " author like :q ";
+            $sql = $sql . " OR  title like :q ";
+            $paramsArray["q"] = '%' . $q . '%';
+        }
+
+
+        $sql .= " ORDER BY $sortCol $sortOrder ";
+
+        $prep = $this->pdo->prepare($sql);
+        $prep->setFetchMode(PDO::FETCH_CLASS, 'Product');
+        $prep->execute($paramsArray);
+
+
+        return $prep->fetchAll();
+    }
 
 
     function seedIfNotSeeded()
@@ -97,6 +136,9 @@ class DBContext
         $this->createIfNotExisting("Dennis Cooper", "Närmare", 109, 1, 2);
         $this->createIfNotExisting("Dennis Cooper", "Kluven", 109, 1, 2);
         $this->createIfNotExisting("Dennis Cooper", "The Sluts (import)", 199, 1, 2);
+        $this->createIfNotExisting("Thomas Moore", "Alone", 299, 1, 2);
+        $this->createIfNotExisting("Mike Williams", "Cancer As A Social Activity (import)", 299, 1, 1);
+
         $seeded = true;
 
     }
