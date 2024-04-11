@@ -11,8 +11,8 @@ $router->addRoute('/viewProduct', function () {
     require __DIR__ . '/src/pages/viewProduct.php';
 });
 
-$router->addRoute('/newproduct', function () {
-    require (__DIR__ . '/src/pages/newproduct.php');
+$router->addRoute('/newProduct', function () {
+    require (__DIR__ . '/src/pages/newProduct.php');
 });
 
 

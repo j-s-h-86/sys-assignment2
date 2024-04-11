@@ -15,9 +15,20 @@ body {
 .bookPresentation  {
     border: 1px solid black;
     width: 50%;
-    height: 400px;
+    height: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
 
+}
+
+.cover_container {
+    padding-top: 20px;
+    width: auto;
+    height: 200px;
+}
+
+.bookCover {
+    height: 100%;
+    width: auto;
 }

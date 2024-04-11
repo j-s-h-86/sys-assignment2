@@ -77,6 +77,15 @@ class DBContext
         return $prep->fetchAll();
     }
 
+    function getPopularProducts()
+    {
+        return $this->pdo->query('select * from products order by popularity desc limit 0,10')->fetchAll(
+            PDO::FETCH_CLASS,
+            'Product'
+        );
+
+    }
+
     function searchProduct($sortCol, $sortOrder, $q)
     {
         if ($sortCol == null) {
@@ -117,40 +126,40 @@ class DBContext
         static $seeded = false;
         if ($seeded)
             return;
-        $this->createIfNotExisting("Pär Lagerkvist", "Ångest", 125, 2, 1);
-        $this->createIfNotExisting("Arthur Rimbaud", "En tid i helvetet", 110, 2, 2);
-        $this->createIfNotExisting("Charles Baudelaire", "De Ondas Blommor", 89, 5, 1);
-        $this->createIfNotExisting("Guillaume Apollinaire", "De elvatusen spöna", 119, 1, 2);
-        $this->createIfNotExisting("Vladimir Majakovskij", "Ett moln i byxor", 199, 3, 1);
-        $this->createIfNotExisting("Harry Crews", "Gospelsångaren", 149, 5, 2);
-        $this->createIfNotExisting("Harry Crews", "Ormfesten", 149, 5, 2);
-        $this->createIfNotExisting("JG Ballard", "Crash", 179, 2, 2);
-        $this->createIfNotExisting("JG Ballard", "Skändlighetsutställningen", 139, 5, 2);
-        $this->createIfNotExisting("Tristan Tzara", "Dada är allt!", 99, 4, 1);
-        $this->createIfNotExisting("Friedich Nietzsche", "Antikrist", 199, 1, 3);
-        $this->createIfNotExisting("Friedich Nietzsche", "Så Talade Zarathustra", 199, 2, 3);
-        $this->createIfNotExisting("Emile Cioran", "Olägenheten i att vara född", 189, 1, 3);
-        $this->createIfNotExisting("Emile Cioran", "Sammanfattning av sönderfallet", 179, 1, 3);
-        $this->createIfNotExisting("Emile Cioran", "Bitterhetens Syllogismer", 199, 3, 3);
-        $this->createIfNotExisting("Pär Lagerkvist", "Kaos", 99, 1, 2);
-        $this->createIfNotExisting("Dennis Cooper", "Närmare", 109, 1, 2);
-        $this->createIfNotExisting("Dennis Cooper", "Kluven", 109, 1, 2);
-        $this->createIfNotExisting("Dennis Cooper", "The Sluts (import)", 199, 1, 2);
-        $this->createIfNotExisting("Thomas Moore", "Alone", 299, 1, 2);
-        $this->createIfNotExisting("Mike Williams", "Cancer As A Social Activity (import)", 299, 1, 1);
+        $this->createIfNotExisting("Pär Lagerkvist", "Ångest", "./assets/angest.jpg", 125, 2, 1);
+        $this->createIfNotExisting("Arthur Rimbaud", "En tid i helvetet", "./assets/rimbaud-tid.jpg", 110, 2, 2);
+        $this->createIfNotExisting("Charles Baudelaire", "De Ondas Blommor", "./assets/baudelaire.jpg", 89, 5, 1);
+        $this->createIfNotExisting("Guillaume Apollinaire", "De elvatusen spöna", "./assets/apollinaire.jpg", 119, 1, 2);
+        $this->createIfNotExisting("Vladimir Majakovskij", "Ett moln i byxor", "./assets/byxor.jpg", 199, 3, 1);
+        $this->createIfNotExisting("Harry Crews", "Gospelsångaren", "./assets/gospelsangaren.jpg", 149, 5, 2);
+        $this->createIfNotExisting("Harry Crews", "Ormfesten", "./assets/ormfesten.jpg", 149, 5, 2);
+        $this->createIfNotExisting("JG Ballard", "Crash", "./assets/jgcrash.jpg", 179, 2, 2);
+        $this->createIfNotExisting("JG Ballard", "Skändlighetsutställningen", "./assets/jgatrocity", 139, 5, 2);
+        $this->createIfNotExisting("Tristan Tzara", "Dada är allt!", "./assets/tzaradada.jpg", 99, 4, 1);
+        $this->createIfNotExisting("Friedich Nietzsche", "Antikrist", "./assets/nietzscheanti.jpg", 199, 1, 3);
+        $this->createIfNotExisting("Friedich Nietzsche", "Så Talade Zarathustra", "./assets/nietzschezarathustra.jpg", 199, 2, 3);
+        $this->createIfNotExisting("Emile Cioran", "Om olägenheten i att vara född", "./assets/olagenheten.jpg", 189, 1, 3);
+        $this->createIfNotExisting("Emile Cioran", "Sammanfattning av sönderfallet", "./assets/Cioransammanfattning.jpg", 179, 1, 3);
+        $this->createIfNotExisting("Emile Cioran", "Bitterhetens Syllogismer", "./assets/bitterhetens.jpg", 199, 3, 3);
+        $this->createIfNotExisting("Pär Lagerkvist", "Kaos", "./assets/kaos.jpg", 99, 1, 2);
+        $this->createIfNotExisting("Dennis Cooper", "Närmare", "./assets/narmare.jpg", 109, 1, 2);
+        $this->createIfNotExisting("Dennis Cooper", "Kluven", "./assets/kluven.jpg", 109, 1, 2);
+        $this->createIfNotExisting("Dennis Cooper", "The Sluts (import)", "./assets/cooper-sluts.jpg", 199, 1, 2);
+        $this->createIfNotExisting("Thomas Moore", "Alone", "./assets/moorealone.jpg", 299, 1, 2);
+        $this->createIfNotExisting("Mike Williams", "Cancer As A Social Activity (import)", "./assets/cancer.jpg", 299, 1, 1);
 
         $seeded = true;
 
     }
 
-    function createIfNotExisting($author, $title, $price, $stockLevel, $categoryId)
+    function createIfNotExisting($author, $title, $image, $price, $stockLevel, $categoryId)
     {
         $existing = $this->getProductByTitle($title);
         if ($existing) {
             return;
         }
         ;
-        return $this->addProduct($author, $title, $price, $stockLevel, $categoryId);
+        return $this->addProduct($author, $title, $image, $price, $stockLevel, $categoryId);
 
     }
 
@@ -161,7 +170,7 @@ class DBContext
         return $this->pdo->lastInsertId();
     }
 
-    function addProduct($author, $title, $price, $stockLevel, $categoryId)
+    function addProduct($author, $title, $image, $price, $stockLevel, $categoryId)
     {
 
         $category = $this->getCategoryByTitle($categoryId);
@@ -169,8 +178,8 @@ class DBContext
             $this->addCategory($categoryId);
             $category = $this->getCategoryByTitle($categoryId);
         }
-        $prep = $this->pdo->prepare('INSERT INTO products (author, title, price, stockLevel, categoryId) VALUES(:author, :title, :price, :stockLevel, :categoryId )');
-        $prep->execute(["author" => $author, "title" => $title, "price" => $price, "stockLevel" => $stockLevel, "categoryId" => $categoryId]);
+        $prep = $this->pdo->prepare('INSERT INTO products (author, title, image, price, stockLevel, categoryId) VALUES(:author, :title, :image, :price, :stockLevel, :categoryId )');
+        $prep->execute(["author" => $author, "title" => $title, "image" => $image, "price" => $price, "stockLevel" => $stockLevel, "categoryId" => $categoryId]);
         return $this->pdo->lastInsertId();
 
     }
@@ -195,6 +204,7 @@ class DBContext
             `id` INT AUTO_INCREMENT NOT NULL,
             `author` varchar(200) NOT NULL,
             `title` varchar(200) NOT NULL,
+            `image` varchar(200) NOT NULL,
             `price` INT,
             `stockLevel` INT,
             `categoryId` INT NOT NULL,
