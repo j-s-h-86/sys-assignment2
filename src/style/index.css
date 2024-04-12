@@ -24,3 +24,13 @@ a:hover {
 tr {
     text-align: center;
 }
+
+.coverContainer_listed {
+    width: auto;
+    height: 50px;
+}
+
+.bookCover_listed {
+    height: 100%;
+    width: auto;
+}

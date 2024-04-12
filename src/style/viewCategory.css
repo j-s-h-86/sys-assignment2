@@ -21,6 +21,16 @@ a:hover {
 border-bottom: 1px solid red;
 }
 
+.coverContainer_listed {
+    width: auto;
+    height: 50px;
+}
+
+.bookCover_listed {
+    height: 100%;
+    width: auto;
+}
+
 tr {
 text-align: center;
 }

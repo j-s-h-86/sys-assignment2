@@ -5,6 +5,7 @@ function layout_header(string $title)
     $sortOrder = $_GET['sortOrder'] ?? "";
     $sortCol = $_GET['sortCol'] ?? "";
     $q = $_GET['q'] ?? "";
+    $id = $_GET['id'] ?? "";
     ?>
 
     <!doctype html>
@@ -30,12 +31,13 @@ function layout_header(string $title)
                         <li>
                             <h3><a href='/viewCategory?id=<?php echo $category->id ?>'>
                                     <?php echo $category->title ?>
-                            </h3></a>
+                                </a></h3>
                         </li>
                     <?php } ?>
                 </ul>
                 <form method="GET">
                     <input type="text" placeholder="Sök produkt" name="q" value="<?php echo $q; ?>" />
+                    <input type="hidden" name="id" value="<?php echo $id ?>">
                     <button>Sök</button>
                 </form>
             </nav>

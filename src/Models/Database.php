@@ -63,17 +63,31 @@ class DBContext
         return $prep->fetch();
     }
 
-    function getProductsByCategory($categoryId, $sortOrder, $sortCol)
+    function getProductsByCategory($categoryId, $sortOrder, $sortCol, $q)
     {
+
         if ($sortCol == null) {
-            $sortCol = "author";
+            $sortCol = "title";
         }
         if ($sortOrder == null) {
-            $sortOrder = "Asc";
+            $sortOrder = "ASC";
         }
-        $prep = $this->pdo->prepare("SELECT * FROM products WHERE categoryId = :categoryId ORDER BY $sortCol $sortOrder");
+        $sql = "SELECT * FROM products WHERE categoryId = :categoryId ";
+        $paramsArray = ["categoryId" => $categoryId];
+        if ($q != null && strlen($q) > 0) {
+            $sql = $sql . " and ( author like :q ";
+            $sql = $sql . " OR  title like :q) ";
+            $paramsArray["q"] = '%' . $q . '%';
+        }
+
+
+        $sql .= " ORDER BY $sortCol $sortOrder ";
+
+        $prep = $this->pdo->prepare($sql);
         $prep->setFetchMode(PDO::FETCH_CLASS, 'Product');
-        $prep->execute(['categoryId' => $categoryId]);
+        $prep->execute($paramsArray);
+
+
         return $prep->fetchAll();
     }
 
@@ -134,7 +148,7 @@ class DBContext
         $this->createIfNotExisting("Harry Crews", "Gospelsångaren", "./assets/gospelsangaren.jpg", 149, 5, 2);
         $this->createIfNotExisting("Harry Crews", "Ormfesten", "./assets/ormfesten.jpg", 149, 5, 2);
         $this->createIfNotExisting("JG Ballard", "Crash", "./assets/jgcrash.jpg", 179, 2, 2);
-        $this->createIfNotExisting("JG Ballard", "Skändlighetsutställningen", "./assets/jgatrocity", 139, 5, 2);
+        $this->createIfNotExisting("JG Ballard", "Skändlighetsutställningen", "./assets/jgatrocity.jpg", 139, 5, 2);
         $this->createIfNotExisting("Tristan Tzara", "Dada är allt!", "./assets/tzaradada.jpg", 99, 4, 1);
         $this->createIfNotExisting("Friedich Nietzsche", "Antikrist", "./assets/nietzscheanti.jpg", 199, 1, 3);
         $this->createIfNotExisting("Friedich Nietzsche", "Så Talade Zarathustra", "./assets/nietzschezarathustra.jpg", 199, 2, 3);

@@ -30,6 +30,7 @@ layout_header("Kulturprofilens Webshop");
         <table class="table">
           <thead>
             <tr>
+              <th></th>
               <th>Author<a href="?sortCol=author&sortOrder=asc"><i class="fa-solid fa-arrow-down-a-z"></i><a
                     href="?sortCol=author&sortOrder=desc"><i class="fa-solid fa-arrow-up-z-a"></i></a></th>
               <th>Title<a href="?sortCol=title&sortOrder=asc"><i class="fa-solid fa-arrow-down-a-z"></i><a
@@ -64,6 +65,10 @@ layout_header("Kulturprofilens Webshop");
               ?>
               <tr class="tabulator-row">
                 <td>
+                  <div class="coverContainer_listed"><img class="bookCover_listed" src="<?php echo $product->image; ?>">
+                  </div>
+                </td>
+                <td>
                   <?php echo $product->author ?>
                 </td>
                 <td>
@@ -74,6 +79,7 @@ layout_header("Kulturprofilens Webshop");
                 <td>
                   <?php echo $product->price ?> SEK
                 </td>
+                <td><button>Lägg i varukorg</button></td>
               </tr>
               <?php
             }

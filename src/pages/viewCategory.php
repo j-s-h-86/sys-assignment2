@@ -6,6 +6,7 @@ $dbContext = new DBContext();
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortCol = $_GET['sortCol'] ?? "";
 $id = $_GET['id'];
+$q = $_GET['q'] ?? "";
 
 layout_header("Kulturprofilens webshop")
     ?>
@@ -21,6 +22,7 @@ layout_header("Kulturprofilens webshop")
         <table class="table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Author<a href="?sortCol=author&sortOrder=asc&id=<?php echo $id ?>"><i
                                 class="fa-solid fa-arrow-down-a-z"></i><a
                                 href="?sortCol=author&sortOrder=desc&id=<?php echo $id ?>"><i
@@ -40,10 +42,15 @@ layout_header("Kulturprofilens webshop")
             </thead>
             <tbody>
                 <?php
-                $booksInCategory = $dbContext->getProductsByCategory($id, $sortOrder, $sortCol);
+                $booksInCategory = $dbContext->getProductsByCategory($id, $sortOrder, $sortCol, $q);
                 foreach ($booksInCategory as $product) {
                     ?>
                     <tr class="tabulator-row">
+                        <td>
+                            <div class="coverContainer_listed"><img class="bookCover_listed"
+                                    src="<?php echo $product->image; ?>">
+                            </div>
+                        </td>
                         <td>
                             <?php echo $product->author ?>
                         </td>
@@ -55,6 +62,7 @@ layout_header("Kulturprofilens webshop")
                         <td>
                             <?php echo $product->price ?> SEK
                         </td>
+                        <td><button>Lägg i varukorg</button></td>
                     </tr>
                     <?php
                 }
