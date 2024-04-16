@@ -10,7 +10,15 @@ header {
 
 div {
     width: 100%;
-    height: 100%
+    height: 100%;
+    position: relative;
+}
+
+.fa-cart-shopping {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
 }
 
 nav {

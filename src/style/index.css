@@ -4,12 +4,21 @@ body {
     background-color: lightgray;
 }
 
+section {
+    display: flex;
+    flex-direction: column;
+}
 .startPageProducts {
     padding-top: 20px;
     color: black;
     display: flex;
     justify-content: center;
 
+}
+
+.paging {
+display: flex;
+justify-content: center;
 }
 
 a {

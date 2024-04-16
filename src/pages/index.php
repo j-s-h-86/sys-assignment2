@@ -6,8 +6,10 @@ require_once ("src/pages/layout/header.php");
 $dbContext = new DBContext();
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortCol = $_GET['sortCol'] ?? "";
+$id = $_Get['id'] ?? "";
 $q = $_GET['q'] ?? "";
-
+$pageSize = $_GET['pageSize'] ?? "8";
+$pageNo = $_GET['pageNo'] ?? "1";
 layout_header("Kulturprofilens Webshop");
 ?>
 
@@ -37,31 +39,13 @@ layout_header("Kulturprofilens Webshop");
                     href="?sortCol=title&sortOrder=desc"><i class="fa-solid fa-arrow-up-z-a"></i></a></th>
               <th>Price<a href="?sortCol=price&sortOrder=asc"><i class="fa-solid fa-arrow-down-a-z"></i><a
                     href="?sortCol=price&sortOrder=desc"><i class="fa-solid fa-arrow-up-z-a"></i></a></th>
-              <!-- <th>Category<a href="?sortCol=categoryId&sortOrder=asc"><i class="fa-solid fa-arrow-down-a-z"></i><a
-                    href="?sortCol=categoryId&sortOrder=desc"><i class="fa-solid fa-arrow-up-z-a"></i></a></th>
-              <th>In stock</th> -->
             </tr>
           </thead>
-
-          <!-- <tbody>
-            <?php
-            $products = $dbContext->getAllProducts($sortCol, $sortOrder);
-            foreach ($products as $product) {
-              echo "<tr>
-                    <td>$product->author</td>
-                    <td>$product->title</td>
-                    <td>$product->price SEK</td>
-                    <td>$product->categoryId</td>
-                    <td>$product->stockLevel pcs</td>
-                    <td><a href='/viewProduct?id=$product->id'>Read more</a>
-                    </tr>";
-            }
-            ;
-            ?>
-          </tbody> -->
           <tbody>
             <?php
-            foreach ($dbContext->searchProduct($sortCol, $sortOrder, $q) as $product) {
+
+            $result = $dbContext->searchProduct($sortCol, $sortOrder, $q, $pageNo);
+            foreach ($result["data"] as $product) {
               ?>
               <tr class="tabulator-row">
                 <td>
@@ -84,11 +68,46 @@ layout_header("Kulturprofilens Webshop");
               <?php
             }
             ?>
-          </tbody>
+
+            <!-- 
+          <tbody>
+            <?php
+            $products = $dbContext->getAllProducts($sortCol, $sortOrder, $q);
+            foreach ($products as $product) {
+              ?>
+              <tr class="tabulator-row">
+                <td>
+                  <div class="coverContainer_listed"><img class="bookCover_listed" src="<?php echo $product->image; ?>">
+                  </div>
+                </td>
+                <td>
+                  <?php echo $product->author ?>
+                </td>
+                <td>
+                  <a href="/viewProduct?id=<?php echo $product->id ?>">
+                    <?php echo $product->title ?>
+                  </a>
+                </td>
+                <td>
+                  <?php echo $product->price ?> SEK
+                </td>
+                <td><button>Lägg i varukorg</button></td>
+              </tr>
+              <?php
+            }
+            ?>
+          </tbody> -->
         </table>
+
       </div>
     </section>
-
+    <div class="paging">
+      <?php
+      for ($i = 1; $i <= $result["num_pages"]; $i++) {
+        echo "<a class='page__button' href='?sortCol=$sortCol&sortOrder=$sortOrder&q=$q&pageNo=$i'>$i</a>&nbsp;";
+      }
+      ?>
+    </div>
 
   </div>
 

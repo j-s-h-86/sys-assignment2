@@ -2,8 +2,6 @@
 function layout_header(string $title)
 {
     $dbContext = new DBContext();
-    $sortOrder = $_GET['sortOrder'] ?? "";
-    $sortCol = $_GET['sortCol'] ?? "";
     $q = $_GET['q'] ?? "";
     $id = $_GET['id'] ?? "";
     ?>
@@ -25,6 +23,7 @@ function layout_header(string $title)
     </head>
     <header>
         <div>
+            <a><i class="fa-solid fa-cart-shopping"></i></a>
             <nav>
                 <ul class="categoryNames">
                     <?php foreach ($dbContext->getAllCategories() as $category) { ?>
@@ -34,6 +33,8 @@ function layout_header(string $title)
                                 </a></h3>
                         </li>
                     <?php } ?>
+                    <li>
+                        <h3><a href='/viewPopular'>Populärast</a></h3>
                 </ul>
                 <form method="GET">
                     <input type="text" placeholder="Sök produkt" name="q" value="<?php echo $q; ?>" />
