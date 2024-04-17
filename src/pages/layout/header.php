@@ -22,6 +22,22 @@ function layout_header(string $title)
 
     </head>
     <header>
+        <div class="user-info">
+            <?php
+            if (!$dbContext->getUsersDatabase()->getAuth()->isLoggedIn()) {
+                ?>
+                <a href="/user/login">Logga in</a>
+                <a href="/user/register">Registrera</a>
+                <?php
+            } else {
+                ?>
+                <h2>Welcome!</h2>
+                <a href="/user/logout"><i class="fas fa-sign-out-alt"></i>Logga ut</a>
+                <?php
+            }
+            ?>
+        </div>
+
         <div>
             <a><i class="fa-solid fa-cart-shopping"></i></a>
             <nav>

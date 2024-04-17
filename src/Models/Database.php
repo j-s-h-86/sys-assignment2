@@ -1,26 +1,33 @@
 <?php
-
 require_once ("src/Models/Category.php");
 require_once ("src/Models/products.php");
+require_once ("src/Models/UserDatabase.php");
+require 'vendor/autoload.php';
 
 class DBContext
 {
-    private $host = 'localhost';
-    private $db = 'products';
-    private $user = 'root';
-    private $pass = 'root';
-    private $charset = 'utf8mb4';
-
     private $pdo;
+    private $usersDatabase;
+
+    function getUsersDatabase()
+    {
+        return $this->usersDatabase;
+    }
 
     function __construct()
     {
-        $dsn = "mysql:host=$this->host;dbname=$this->db";
-        $this->pdo = new PDO($dsn, $this->user, $this->pass);
+        $dotenv = \Dotenv\Dotenv::createImmutable(".");
+        $dotenv->load();
+        $host = $_ENV['host'];
+        $db = $_ENV['db'];
+        $user = $_ENV['user'];
+        $pass = $_ENV['pass'];
+        $dsn = "mysql:host=$host;dbname=$db";
+        $this->pdo = new PDO($dsn, $user, $pass);
+        $this->usersDatabase = new UserDatabase($this->pdo);
         $this->initIfNotInitialized();
         $this->seedIfNotSeeded();
     }
-
     function getAllCategories()
     {
         return $this->pdo->query('SELECT * FROM category')->fetchAll(PDO::FETCH_CLASS, 'Category');
@@ -239,6 +246,26 @@ class DBContext
             ) ";
 
         $this->pdo->exec($sql);
+
+        // $sql = "CREATE TABLE IF NOT EXISTS `orders` (
+        //     `id` INT AUTO_INCREMENT NOT NULL,
+        //     `productId` INT NOT NULL,
+        //     `userId` INT NOT NULL,
+        //     PRIMARY KEY (`id`)
+        //     FOREIGN KEY (`userId`)
+        //     REFERENCES users(id)
+
+        // )";
+
+        // $this->pdo->exec($sql);
+
+        // $sql = "CREATE TABLE IF NOT EXISTS `users` (
+        //     `id` INT AUTO_INCREMENT NOT NULL,
+        //     `userName` VARCHAR (200) NOT NULL,
+        //     PRIMARY KEY (`id`)
+        // )";
+
+        // $this->pdo->exec($sql);
 
         $initialized = true;
     }
