@@ -16,7 +16,7 @@ function layout_header(string $title)
         <title>
             <?php echo $title; ?>
         </title>
-        <link rel="stylesheet" href="./src/style/header.css">
+        <link rel="stylesheet" href="/src/style/header.css">
         <script src="https://kit.fontawesome.com/f3df6af664.js" crossorigin="anonymous"></script>
         <script src="/js/main.js"></script>
 
@@ -26,8 +26,8 @@ function layout_header(string $title)
             <?php
             if (!$dbContext->getUsersDatabase()->getAuth()->isLoggedIn()) {
                 ?>
-                <a href="/user/login">Logga in</a>
-                <a href="/user/register">Registrera</a>
+                <a href="/users/login">Logga in</a>
+                <a href="/users/register">Registrera</a>
                 <?php
             } else {
                 ?>

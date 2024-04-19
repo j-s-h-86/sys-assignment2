@@ -20,11 +20,11 @@ $router->addRoute('/viewCategory', function () {
     require __DIR__ . '/src/pages/viewCategory.php';
 });
 
-$router->addRoute('/user/login', function () {
+$router->addRoute('/users/login', function () {
     require __DIR__ . '/src/pages/users/login.php';
 });
 
-$router->addRoute('/user/register', function () {
+$router->addRoute('/users/register', function () {
     require __DIR__ . '/src/pages/users/register.php';
 });
 

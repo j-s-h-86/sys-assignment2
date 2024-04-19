@@ -215,6 +215,32 @@ class DBContext
 
     }
 
+    function addUser($UserName, $Password, $GivenName, $Surname, $StreetAddress, $City, $ZipCode, $Country, $PersonalNumber, $EmailAddress)
+    {
+        $prep = $this->pdo->prepare("INSERT INTO User
+    (UserName, Password) VALUES(:UserName, :Password)");
+        $prep->execute([
+            "UserName" => $UserName,
+            "Password" => $Password
+        ]);
+
+        $prep = $this->pdo->prepare("INSERT INTO UserDetails
+                        (GivenName, Surname, StreetAddress, City, ZipCode, Country, PersonalNumber, EmailAddress)
+                    VALUES(:GivenName, :Surname, :Streetaddress, :City, :Zipcode, :Country, :PersonalNumber, :EmailAddress);
+        ");
+        $prep->execute([
+            "GivenName" => $GivenName,
+            "Surname" => $Surname,
+            "Streetaddress" => $StreetAddress,
+            "City" => $City,
+            "ZipCode" => $ZipCode,
+            "Country" => $Country,
+            "PersonalNumber" => $PersonalNumber,
+            "EmailAddress" => $EmailAddress
+        ]);
+        return $this->pdo->lastInsertId();
+
+    }
     function initIfNotInitialized()
     {
 
@@ -247,25 +273,8 @@ class DBContext
 
         $this->pdo->exec($sql);
 
-        // $sql = "CREATE TABLE IF NOT EXISTS `orders` (
-        //     `id` INT AUTO_INCREMENT NOT NULL,
-        //     `productId` INT NOT NULL,
-        //     `userId` INT NOT NULL,
-        //     PRIMARY KEY (`id`)
-        //     FOREIGN KEY (`userId`)
-        //     REFERENCES users(id)
-
-        // )";
-
-        // $this->pdo->exec($sql);
-
-        // $sql = "CREATE TABLE IF NOT EXISTS `users` (
-        //     `id` INT AUTO_INCREMENT NOT NULL,
-        //     `userName` VARCHAR (200) NOT NULL,
-        //     PRIMARY KEY (`id`)
-        // )";
-
-        // $this->pdo->exec($sql);
+        $this->usersDatabase->setupUsers();
+        $this->usersDatabase->seedUsers();
 
         $initialized = true;
     }

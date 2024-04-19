@@ -20,87 +20,60 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     }
 }
+layout_header("Kulturprofilens webshop")
+    ?>
 
-layout_header("Kulturprofilens webshop");
-?>
+<head>
+    <link rel="stylesheet" href="/src/style/login.css">
+</head>
 <html>
 
 <body>
     <?php echo $dbContext->getUsersDatabase()->getAuth()->isLoggedIn(); ?>
     <main>
-        <div class="top-header">
-            <div class="logo">
-                <a href="index.html"> <img src="/images/rocket.png"></a>
-            </div>
-            <div>
-                <label for="active" class="menu-btn">
-                    <i class="fas fa-bars" id="menu"></i>
-                </label>
-            </div>
-        </div>
+        <section class="login_form">
+            <form method="post" class="form">
+                <table width="100%">
+                    <thead>
+                        <tr>
+                            <th><span class="las la-sort"></span> </th>
+                            <th width="90%"><span class="las la-sort"></span> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th><label for="name">Användarnamn</label></th>
+                            <td>
+                                <input class="form-control" type="text" name="username" value="<?php echo $username ?>">
 
-        <div class="content">
+                            </td>
+                        </tr>
 
-            <div class="row-box">
-                <div class="col-boxes-1">
-                    <div class="col-table">
-                        <div class="table-section">
-                            <div class="header-table">
-                                <h2>Ny kund - <?php echo $message; ?></h2>
-                            </div>
-                            <form method="post" class="form">
-                                <table width="100%">
-                                    <thead>
-                                        <tr>
-                                            <th><span class="las la-sort"></span> </th>
-                                            <th width="90%"><span class="las la-sort"></span> </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th><label for="name">Username</label></th>
-                                            <td>
-                                                <input class="form-control" type="text" name="username"
-                                                    value="<?php echo $username ?>">
+                        <tr>
+                            <th><label for="name">Lösenord</label></th>
+                            <td>
+                                <input class="form-control" type="password" name="password">
 
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <th><label for="name">Password</label></th>
-                                            <td>
-                                                <input class="form-control" type="password" name="password">
-
-                                            </td>
-                                        </tr>
+                            </td>
+                        </tr>
 
 
-                                        <tr>
-                                            <td></td>
-                                            <td>
-                                                <input type="submit" class="listbutton" value="Save">
-                                                &nbsp;&nbsp;&nbsp;
-                                                <a href="/" class="listbutton">Cancel</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="submit" class="listbutton" value="Logga in">
+                                &nbsp;&nbsp;&nbsp;
+                                <a href="/" class="listbutton">Avbryt</a>
+                            </td>
+                        </tr>
+                    </tbody>
 
 
-                                </table>
-                            </form>
+                </table>
+            </form>
 
 
-
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
-
+        </section>
     </main>
 
 
