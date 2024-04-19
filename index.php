@@ -28,9 +28,9 @@ $router->addRoute('/users/register', function () {
     require __DIR__ . '/src/pages/users/register.php';
 });
 
-// $router->addRoute('/input', function () {
-//     require __DIR__ . '/pages/form.php';
-// });
+$router->addRoute('/users/logout', function () {
+    require __DIR__ . '/src/pages/users/logout.php';
+});
 
 $router->dispatch();
 ?>

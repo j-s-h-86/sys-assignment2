@@ -32,7 +32,7 @@ function layout_header(string $title)
             } else {
                 ?>
                 <h2>Welcome!</h2>
-                <a href="/user/logout"><i class="fas fa-sign-out-alt"></i>Logga ut</a>
+                <a href="/users/logout"><i class="fas fa-sign-out-alt"></i>Logga ut</a>
                 <?php
             }
             ?>

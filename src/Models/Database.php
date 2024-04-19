@@ -215,27 +215,22 @@ class DBContext
 
     }
 
-    function addUser($UserName, $Password, $GivenName, $Surname, $StreetAddress, $City, $ZipCode, $Country, $PersonalNumber, $EmailAddress)
+    function addUser($UserName, $Password, $GivenName, $Surname, $StreetAddress, $City, $ZipCode, $Country, $EmailAddress)
     {
-        $prep = $this->pdo->prepare("INSERT INTO User
-    (UserName, Password) VALUES(:UserName, :Password)");
-        $prep->execute([
-            "UserName" => $UserName,
-            "Password" => $Password
-        ]);
+        $userId = $this->usersDatabase->getAuth()->admin()->createUser($UserName, $Password, $EmailAddress);
+
 
         $prep = $this->pdo->prepare("INSERT INTO UserDetails
-                        (GivenName, Surname, StreetAddress, City, ZipCode, Country, PersonalNumber, EmailAddress)
-                    VALUES(:GivenName, :Surname, :Streetaddress, :City, :Zipcode, :Country, :PersonalNumber, :EmailAddress);
+                        (GivenName, Surname, StreetAddress, City, ZipCode, Country, EmailAddress)
+                    VALUES(:GivenName, :Surname, :StreetAddress, :City, :ZipCode, :Country, :EmailAddress);
         ");
         $prep->execute([
             "GivenName" => $GivenName,
             "Surname" => $Surname,
-            "Streetaddress" => $StreetAddress,
+            "StreetAddress" => $StreetAddress,
             "City" => $City,
             "ZipCode" => $ZipCode,
             "Country" => $Country,
-            "PersonalNumber" => $PersonalNumber,
             "EmailAddress" => $EmailAddress
         ]);
         return $this->pdo->lastInsertId();
@@ -269,6 +264,20 @@ class DBContext
             PRIMARY KEY (`id`),
             FOREIGN KEY (`categoryId`)
                 REFERENCES category(id)
+            ) ";
+
+        $this->pdo->exec($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS `UserDetails` (
+            `id` INT AUTO_INCREMENT NOT NULL,
+            `GivenName` varchar(200) NOT NULL,
+            `Surname` varchar(200) NOT NULL,
+            `StreetAddress` varchar(200) NOT NULL,
+            `City` varchar(200) NOT NULL,
+            `ZipCode` INT,
+            `Country` varchar(200) NOT NULL,
+            `EmailAddress`varchar(200) NOT NULL, 
+            PRIMARY KEY (`id`)
             ) ";
 
         $this->pdo->exec($sql);

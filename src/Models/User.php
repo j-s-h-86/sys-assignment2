@@ -3,7 +3,6 @@ class User
 {
     public $UserName;
     public $Password;
-    public $PersonalNumber;
     public $GivenName;
     public $Surname;
     public $StreetAddress;
