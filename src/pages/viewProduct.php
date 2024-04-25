@@ -10,10 +10,17 @@ $book = $dbContext->getProduct($id);
 layout_header("Kulturprofilens webshop");
 ?>
 
+<html>
+
 <head>
     <link rel="stylesheet" href="./src/style/product.css">
 </head>
-<html>
+<script>
+    async function addToCart(id) {
+        const quantity = await ((await fetch(`/addtocart?id=${id}`)).text())
+        document.getElementById("amount").innerText = quantity;
+    }
+</script>
 
 
 <body>
@@ -23,6 +30,8 @@ layout_header("Kulturprofilens webshop");
             <p>
                 <?php echo $book->author; ?> - <?php echo $book->title; ?>
             </p>
+            <button class="listbutton" onclick="javascript:addToCart(<?php echo $book->id ?>)">Lägg i
+                varukorg</button>
         </div>
     </div>
 </body>

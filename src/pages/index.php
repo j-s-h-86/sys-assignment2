@@ -2,14 +2,16 @@
 require_once ("src/Models/products.php");
 require_once ("src/Models/Database.php");
 require_once ("src/pages/layout/header.php");
+require_once ("src/Functions/oneOf.php");
 
 $dbContext = new DBContext();
 $sortOrder = $_GET['sortOrder'] ?? "";
-$sortCol = $_GET['sortCol'] ?? "";
+$sortOrder = $sortOrder == 'DESC' ? 'DESC' : 'ASC';
+$sortCol = oneOf($sortCol, ["author", "title", "price", "id"], "id");
 $id = $_Get['id'] ?? "";
 $q = $_GET['q'] ?? "";
-$pageSize = $_GET['pageSize'] ?? "8";
-$pageNo = $_GET['pageNo'] ?? "1";
+$pageSize = intval($_GET['pageSize'] ?? "8");
+$pageNo = intval($_GET['pageNo'] ?? "1");
 layout_header("Kulturprofilens Webshop");
 ?>
 

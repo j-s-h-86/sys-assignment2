@@ -2,20 +2,29 @@
 require_once ("src/Models/Database.php");
 require_once ("src/Models/products.php");
 require_once ("src/pages/layout/header.php");
+require_once ("src/Functions/oneOf.php");
 $dbContext = new DBContext();
 $sortOrder = $_GET['sortOrder'] ?? "";
-$sortCol = $_GET['sortCol'] ?? "";
+$sortOrder = $sortOrder == 'DESC' ? 'DESC' : 'ASC';
+$sortCol = oneOf($sortCol, ["author", "title", "price", "id"], "id");
 $id = $_GET['id'];
 $q = $_GET['q'] ?? "";
 
 layout_header("Kulturprofilens webshop")
     ?>
 
+<html>
+
 <head>
     <link rel="stylesheet" href="./src/style/viewCategory.css">
 </head>
 
-<html>
+<script>
+    async function addToCart(id) {
+        const quantity = await ((await fetch(`/addtocart?id=${id}`)).text())
+        document.getElementById("amount").innerText = quantity;
+    }
+</script>
 
 <body>
     <div class="categoryProducts">
@@ -62,7 +71,8 @@ layout_header("Kulturprofilens webshop")
                         <td>
                             <?php echo $product->price ?> SEK
                         </td>
-                        <td><button>Lägg i varukorg</button></td>
+                        <td><button class="listbutton" onclick="javascript:addToCart(<?php echo $product->id ?>)">Lägg i
+                                varukorg</button></td>
                     </tr>
                     <?php
                 }

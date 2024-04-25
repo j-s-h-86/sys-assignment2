@@ -201,6 +201,12 @@ class DBContext
         return 1;
     }
 
+    // function getQuantityFromDB()
+    // {
+    //     return $this->pdo->query('SELECT SUM(quantity) AS total_quantity FROM shoppingCartItems')->fetchAll(PDO::FETCH_ASSOC, 'products');
+
+    // }
+
     function addCategory($title)
     {
         $prep = $this->pdo->prepare('INSERT INTO category (title) VALUES(:title )');

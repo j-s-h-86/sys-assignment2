@@ -40,7 +40,9 @@ function layout_header(string $title)
         </div>
 
         <div>
-            <a id="amount" href="javascript:void">Cart</a>
+            <div class="cartContainer"><i class="fa-solid fa-cart-shopping"></i>
+                <p id="amount" href="javascript:void">0</p>
+            </div>
             <nav>
                 <ul class="categoryNames">
                     <?php foreach ($dbContext->getAllCategories() as $category) { ?>
