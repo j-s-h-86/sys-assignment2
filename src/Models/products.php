@@ -10,5 +10,6 @@ class Product
     public $categoryId;
     public $popularity;
 
+
 }
 ;

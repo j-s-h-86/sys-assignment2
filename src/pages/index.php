@@ -16,6 +16,13 @@ layout_header("Kulturprofilens Webshop");
 <!doctype html>
 <html lang="en">
 
+<script>
+  async function addToCart(id) {
+    const quantity = await ((await fetch(`/addtocart?id=${id}`)).text())
+    document.getElementById("amount").innerText = quantity;
+  }
+</script>
+
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="/vite.svg" />
@@ -63,7 +70,8 @@ layout_header("Kulturprofilens Webshop");
                 <td>
                   <?php echo $product->price ?> SEK
                 </td>
-                <td><button>Lägg i varukorg</button></td>
+                <td><button class="listbutton" onclick="javascript:addToCart(<?php echo $product->id ?>)">Lägg i
+                    varukorg</button></td>
               </tr>
               <?php
             }

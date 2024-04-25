@@ -1,8 +1,8 @@
 <?php
+require 'vendor/autoload.php';
 require_once ("src/Models/Category.php");
 require_once ("src/Models/products.php");
 require_once ("src/Models/UserDatabase.php");
-require 'vendor/autoload.php';
 
 class DBContext
 {
@@ -194,6 +194,13 @@ class DBContext
 
     }
 
+    function addToCart($productId)
+    {
+        $prep = $this->pdo->prepare('INSERT INTO shoppingCartItem (quantity,productId) VALUES(1,:productId)');
+        $prep->execute(["productId" => $productId]);
+        return 1;
+    }
+
     function addCategory($title)
     {
         $prep = $this->pdo->prepare('INSERT INTO category (title) VALUES(:title )');
@@ -243,6 +250,17 @@ class DBContext
         if ($initialized)
             return;
 
+        $sql = "CREATE TABLE IF NOT EXISTS `shoppingCartItem` (
+                `id` INT AUTO_INCREMENT NOT NULL,
+                `quantity`INT NOT NULL,
+                `productId` INT NOT NULL,
+                PRIMARY KEY (`id`),
+                FOREIGN KEY (`productId`)
+                REFERENCES products(id)
+                ) ";
+
+
+        $this->pdo->exec($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS `category` (
             `id` INT AUTO_INCREMENT NOT NULL,

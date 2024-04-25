@@ -7,7 +7,6 @@ require_once ("src/pages/layout/Header.php");
 
 $dbContext = new DBContext();
 
-
 $customer = new User();
 $message = "";
 
@@ -46,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $customer->Country,
             $customer->EmailAddress
         );
-        header("Location: /"); // uppmaning Location = byt location till det jag säger
+        header("Location: /users/login");
         exit;
     } else {
         $message = "FIXA FEL";
@@ -74,7 +73,7 @@ layout_header("Kulturprofilens webshop")
                 </thead>
                 <tbody>
                     <tr>
-                        <th><label for="name">Användarnamn</label></th>
+                        <th><label for="name">Användarnamn/Epost</label></th>
                         <td>
                             <input class="form-control" type="text" name="UserName"
                                 value="<?php echo $customer->UserName ?>">
@@ -146,7 +145,7 @@ layout_header("Kulturprofilens webshop")
                         </td>
                     </tr>
                     <tr>
-                        <th><label for="name">EmailAddress</label></th>
+                        <th><label for="name">Epost igen</label></th>
                         <td>
                             <input class="form-control" type="email" name="EmailAddress"
                                 value="<?php echo $customer->EmailAddress ?>">

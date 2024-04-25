@@ -1,4 +1,5 @@
 <?php
+
 function layout_header(string $title)
 {
     $dbContext = new DBContext();
@@ -31,7 +32,7 @@ function layout_header(string $title)
                 <?php
             } else {
                 ?>
-                <h2>Welcome!</h2>
+                <h3>Hej, <?php echo $dbContext->getUsersDatabase()->getAuth()->getUsername(); ?>!</h3>
                 <a href="/users/logout"><i class="fas fa-sign-out-alt"></i>Logga ut</a>
                 <?php
             }
@@ -39,7 +40,7 @@ function layout_header(string $title)
         </div>
 
         <div>
-            <a><i class="fa-solid fa-cart-shopping"></i></a>
+            <a id="amount" href="javascript:void">Cart</a>
             <nav>
                 <ul class="categoryNames">
                     <?php foreach ($dbContext->getAllCategories() as $category) { ?>

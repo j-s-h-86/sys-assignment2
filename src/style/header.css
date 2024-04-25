@@ -1,5 +1,5 @@
 header {
-    height: 150px;
+    height: 200px;
     background-color: darkgray;
     width: 100%;
     display: flex;
@@ -14,10 +14,15 @@ div {
     position: relative;
 }
 
-.fa-cart-shopping {
+.user-info{
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+#cart {
     position: absolute;
     top: 20px;
-    right: 20px;
+    padding-left: 20px;
     font-size: 2rem;
 }
 

@@ -32,5 +32,9 @@ $router->addRoute('/users/logout', function () {
     require __DIR__ . '/src/pages/users/logout.php';
 });
 
+$router->addRoute('/addtocart', function () {
+    require __DIR__ . '/src/Models/addToCart.php';
+});
+
 $router->dispatch();
 ?>
