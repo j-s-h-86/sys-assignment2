@@ -7,16 +7,30 @@ require_once ("src/Functions/oneOf.php");
 $dbContext = new DBContext();
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortOrder = $sortOrder == 'DESC' ? 'DESC' : 'ASC';
+$sortCol = $_GET['sortCol'] ?? "";
 $sortCol = oneOf($sortCol, ["author", "title", "price", "id"], "id");
 $id = $_Get['id'] ?? "";
 $q = $_GET['q'] ?? "";
 $pageSize = intval($_GET['pageSize'] ?? "8");
 $pageNo = intval($_GET['pageNo'] ?? "1");
+
 layout_header("Kulturprofilens Webshop");
 ?>
 
 <!doctype html>
 <html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kulturprofilens Webshop</title>
+  <link rel="stylesheet" href="./src/style/index.css">
+  <!-- <script src="https://kit.fontawesome.com/f3df6af664.js" crossorigin="anonymous"></script> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 
 <script>
   async function addToCart(id) {
@@ -25,14 +39,6 @@ layout_header("Kulturprofilens Webshop");
   }
 </script>
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kulturprofilens Webshop</title>
-  <link rel="stylesheet" href="./src/style/index.css">
-  <script src="https://kit.fontawesome.com/f3df6af664.js" crossorigin="anonymous"></script>
-</head>
 
 <body>
   <div id="root">

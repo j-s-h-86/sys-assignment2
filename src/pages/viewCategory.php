@@ -6,6 +6,7 @@ require_once ("src/Functions/oneOf.php");
 $dbContext = new DBContext();
 $sortOrder = $_GET['sortOrder'] ?? "";
 $sortOrder = $sortOrder == 'DESC' ? 'DESC' : 'ASC';
+$sortCol = $_GET['sortCol'] ?? "";
 $sortCol = oneOf($sortCol, ["author", "title", "price", "id"], "id");
 $id = $_GET['id'];
 $q = $_GET['q'] ?? "";
